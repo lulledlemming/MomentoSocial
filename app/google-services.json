@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "855099340960",
+    "project_id": "momento-d2c59",
+    "storage_bucket": "momento-d2c59.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855099340960:android:2c4b52baa640d0de6c71c5",
+        "android_client_info": {
+          "package_name": "com.dandy.momento"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "855099340960-kuh774dl11553jnnqe076231ecuhv852.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_iJ_kF5TxkFPs_-dpo1KJDc1KNkLd9b4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "855099340960-kuh774dl11553jnnqe076231ecuhv852.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
