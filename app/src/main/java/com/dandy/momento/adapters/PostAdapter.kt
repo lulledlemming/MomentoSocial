@@ -80,7 +80,7 @@ class PostAdapter(private val mContext: Context,
 
                     Picasso.get().load(user!!.getImage()).placeholder(R.drawable.ic_user_avatar_light).into(profileImage)
                     userName.text = user!!.getUsername()
-                    publisher.text = user!!.getPublisher()
+                    publisher.text = user!!.getFullName()
                 }
 
             }

@@ -12,10 +12,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setUpTabBar()
-
-
     }
-
 
     private fun setUpTabBar() {
         val adapter = TabPageAdapter(this, tabLayout.tabCount)
@@ -43,6 +40,10 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
     }
 
 }

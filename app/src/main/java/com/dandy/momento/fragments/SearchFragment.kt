@@ -63,6 +63,7 @@ class SearchFragment : Fragment() {
 
         return view
     }
+
     private fun retrieveUsers() {
         val usersRef = FirebaseDatabase.getInstance().getReference().child("Users")
         searchBox = view?.findViewById(R.id.searchBox)
@@ -113,7 +114,5 @@ class SearchFragment : Fragment() {
 
             }
         })
-
     }
-
 }

@@ -1,13 +1,16 @@
 package com.dandy.momento.fragments
 
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.dandy.momento.NewPostActivity
 import com.dandy.momento.R
 import com.dandy.momento.adapters.PostAdapter
 import com.dandy.momento.models.Post
@@ -19,9 +22,10 @@ import com.google.firebase.database.ValueEventListener
 
 
 class HomeFragment : Fragment() {
-    private var postAdapter: PostAdapter? = null
-    private var postList: MutableList<Post>? = null
-    private var watchingList: MutableList<Post>? = null
+    private var postAdapter: PostAdapter ?= null
+    private lateinit var postList: MutableList<Post>
+    private lateinit var watchingList: MutableList<Post>
+    private lateinit var newPostButton: ImageButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,6 +36,11 @@ class HomeFragment : Fragment() {
 
         var recyclerView: RecyclerView? = null
         recyclerView = view.findViewById(R.id.homeRecyclerView)
+        newPostButton = view.findViewById(R.id.addPost)
+
+        newPostButton.setOnClickListener{
+            startActivity(Intent(context, NewPostActivity::class.java))
+        }
 
         val linearLayoutManager = LinearLayoutManager(context)
         linearLayoutManager.reverseLayout = true
@@ -72,9 +81,8 @@ class HomeFragment : Fragment() {
         })
 
     }
-}
-
     private fun retrievePosts() {
+        postList = ArrayList()
         val postsRef = FirebaseDatabase.getInstance().reference.child("Posts")
 
         postsRef.addValueEventListener(object : ValueEventListener {
@@ -86,7 +94,7 @@ class HomeFragment : Fragment() {
 
                     for (id in (watchingList as ArrayList<String>)) {
                         if (post!!.getPublisher() == id.toString()) {
-                            postlist!!.add(post)
+                            postList!!.add(post)
                         }
                     }
                 }
