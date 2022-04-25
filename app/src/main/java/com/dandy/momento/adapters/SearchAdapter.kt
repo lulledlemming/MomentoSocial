@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.fragment.app.FragmentActivity
@@ -107,7 +108,7 @@ class SearchAdapter(private var mContext: Context,
     class ViewHolder(@NonNull itemView: View) :RecyclerView.ViewHolder(itemView) {
         var userNameTextView: TextView = itemView.findViewById(R.id.userName_search)
         var userFullNameTextView: TextView = itemView.findViewById(R.id.userFullName_search)
-        var userProfileImageView: TextView = itemView.findViewById(R.id.userImage_search)
+        var userProfileImageView: ImageView = itemView.findViewById(R.id.userImage_search)
         var userWatchButton: TextView = itemView.findViewById(R.id.watchButton_search)
 
 

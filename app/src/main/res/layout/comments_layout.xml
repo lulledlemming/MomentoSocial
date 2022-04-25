@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/commentsProfileImage"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_user_avatar_light" />
+
+        <TextView
+            android:id="@+id/commentsUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="username"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:layout_marginStart="30dp"
+            android:layout_toEndOf="@id/commentsProfileImage"/>
+
+        <TextView
+            android:id="@+id/commentsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Just a comment..."
+            android:textSize="15sp"
+            android:textAllCaps="false"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@id/commentsUsername"/>
+
+        <TextView
+            android:id="@+id/commentsTimelog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginStart="30dp"
+            android:layout_below="@id/commentsUsername"
+            android:layout_toEndOf="@id/commentsProfileImage"
+            android:text="3 d"
+            android:textAllCaps="false"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/commentsComment"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_below="@id/commentsUsername"
+            android:layout_marginStart="100dp"
+            android:layout_marginEnd="18dp"
+            android:layout_toEndOf="@+id/commentsTimelog" />
+
+        <ImageView
+            android:id="@+id/commentsVote"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_below="@id/commentsUsername"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="18dp"
+            android:layout_toEndOf="@+id/commentsComment" />
+
+    </RelativeLayout>
+
+</LinearLayout>

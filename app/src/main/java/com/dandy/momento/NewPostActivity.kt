@@ -1,6 +1,7 @@
 package com.dandy.momento
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,8 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import com.canhub.cropper.CropImage
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.OnCompleteListener
@@ -18,6 +21,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
+import com.yalantis.ucrop.UCrop
 import kotlinx.android.synthetic.main.activity_new_post.*
 
 class NewPostActivity : AppCompatActivity() {
@@ -26,7 +30,26 @@ class NewPostActivity : AppCompatActivity() {
     private var storagePostPicRef: StorageReference ?= null
     private lateinit var publishPostButton: ImageView
 
+    private val uCropContract = object : ActivityResultContract<List<Uri>, Uri>(){
+        override fun createIntent(context: Context, input: List<Uri>): Intent {
+            val inputUri = input[0]
+            val outputUri = input[1]
 
+            val uCrop = UCrop.of(inputUri, outputUri)
+                .withAspectRatio(2F, 1F)
+                .withMaxResultSize(1720, 860)
+
+            return uCrop.getIntent(context)
+        }
+
+        override fun parseResult(resultCode: Int, intent: Intent?): Uri {
+            return UCrop.getOutput(intent!!)!!
+        }
+    }
+
+    private val cropImage = registerForActivityResult(uCropContract){
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +57,6 @@ class NewPostActivity : AppCompatActivity() {
 
         storagePostPicRef = FirebaseStorage.getInstance().reference.child("Post Pictures")
         publishPostButton = findViewById(R.id.publishNewPost)
-
-        CropImage.launch()
 
         CropImage.activity()
             .setAspectRatio(2, 1)
@@ -49,9 +70,10 @@ class NewPostActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null){
-            val result = CropImage.getPickImageResultUriContent(this, data)
-            imageUri = result.uri
+
+        if (requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK && data !=null){
+            val result = UCrop.getOutput(intent)
+            imageUri = result
             newPostImage.setImageURI(imageUri)
         }
 

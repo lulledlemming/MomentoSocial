@@ -14,8 +14,6 @@ import com.canhub.cropper.CropImage
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageView
 import com.canhub.cropper.options
-import com.dandy.momento.SCropImageContract
-import com.dandy.momento.SCropImagePresenter
 import com.dandy.momento.models.User
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.OnCompleteListener
@@ -43,14 +41,7 @@ class ProfileSettings : AppCompatActivity() {
     private var myUrl = ""
     private var imageUri : Uri? = null
     private var storageProfilePicRef: StorageReference?= null
-    private val presenter: SCropImageContract.Presenter = SCropImagePresenter()
-    private var outputUri: Uri? = null
-    private val cropImage = registerForActivityResult(CropImageContract()) {
-        presenter.onCropImageResult(it)
-    }
-    private val customCropImage = registerForActivityResult(CropImageContract()) {
-        presenter.onCustomCropImageResult(outputUri)
-    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile_settings)
@@ -76,7 +67,7 @@ class ProfileSettings : AppCompatActivity() {
 
         changeImageClicker.setOnClickListener{
             checker = "clicked"
-            cropImage.launch(
+            CropImage.launch(
                 options {
                     setAspectRatio(1, 1)
                 }
