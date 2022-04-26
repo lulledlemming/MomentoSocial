@@ -14,8 +14,8 @@ class TabPageAdapter(activity: FragmentActivity, private val tabCount: Int) :
     {
         return when (position){
             0 -> HomeFragment()
-            1 -> FeedFragment()
-            2 -> SearchFragment()
+            1 -> SearchFragment()
+            2 -> FeedFragment()
             3 -> ProfileFragment()
             else -> HomeFragment()
         }

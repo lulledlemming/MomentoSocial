@@ -1,6 +1,7 @@
 package com.dandy.momento
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContract
 import com.canhub.cropper.CropImage
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageView
@@ -29,6 +31,8 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import com.squareup.picasso.Picasso
+import com.yalantis.ucrop.UCrop
+import kotlinx.android.synthetic.main.activity_new_post.*
 import kotlinx.android.synthetic.main.activity_profile_settings.*
 
 class ProfileSettings : AppCompatActivity() {
@@ -41,6 +45,23 @@ class ProfileSettings : AppCompatActivity() {
     private var myUrl = ""
     private var imageUri : Uri? = null
     private var storageProfilePicRef: StorageReference?= null
+
+    private val uCropContract = object : ActivityResultContract<List<Uri>, Uri>(){
+        override fun createIntent(context: Context, input: List<Uri>): Intent {
+            val inputUri = input[0]
+            val outputUri = input[1]
+
+            val uCrop = UCrop.of(inputUri, outputUri)
+                .withAspectRatio(2F, 1F)
+                .withMaxResultSize(1720, 860)
+
+            return uCrop.getIntent(context)
+        }
+
+        override fun parseResult(resultCode: Int, intent: Intent?): Uri {
+            return UCrop.getOutput(intent!!)!!
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,11 +88,6 @@ class ProfileSettings : AppCompatActivity() {
 
         changeImageClicker.setOnClickListener{
             checker = "clicked"
-            CropImage.launch(
-                options {
-                    setAspectRatio(1, 1)
-                }
-            )
 //            CropImage.activity()
 //                .setAspectRatio( 1, 1)
 //                .start(this)
@@ -92,10 +108,10 @@ class ProfileSettings : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null){
-            val result = CropImage.getActivityResult(data)
-            imageUri = result.uri
-            changeProfileImage.setImageURI(imageUri)
+        if (requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK && data !=null){
+            val result = UCrop.getOutput(intent)
+            imageUri = result
+            newPostImage.setImageURI(imageUri)
         }
     }
 

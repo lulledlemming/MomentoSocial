@@ -26,13 +26,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Feed"
-                    android:textSize="20sp"
-                    android:layout_marginStart="20dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimaryDark"
                     android:layout_centerVertical="true"
-                    android:maxLines="1"/>
+                    android:layout_marginStart="20dp"
+                    android:maxLines="1"
+                    android:text="Activity"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
@@ -42,6 +42,6 @@
         android:id="@+id/feedRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/appBarTop_feed"/>
+        android:layout_below="@id/appBarTop_feed" />
 
 </RelativeLayout>

@@ -5,6 +5,7 @@
       <map>
         <entry key="app/src/main/res/drawable-v24/background_button_transparent.xml" value="0.15" />
         <entry key="app/src/main/res/drawable-v24/background_pink.xml" value="0.1585" />
+        <entry key="app/src/main/res/drawable-v24/ic_profile.xml" value="0.1325" />
         <entry key="app/src/main/res/drawable/background_button.xml" value="0.1585" />
         <entry key="app/src/main/res/drawable/background_button_light.xml" value="0.1585" />
         <entry key="app/src/main/res/drawable/background_button_light_curved.xml" value="0.1585" />
@@ -22,6 +23,7 @@
         <entry key="app/src/main/res/drawable/ic_add_image.xml" value="0.15" />
         <entry key="app/src/main/res/drawable/ic_add_post.xml" value="0.1585" />
         <entry key="app/src/main/res/drawable/ic_close.xml" value="0.1585" />
+        <entry key="app/src/main/res/drawable/ic_feed.xml" value="0.1325" />
         <entry key="app/src/main/res/drawable/ic_home.xml" value="0.1805" />
         <entry key="app/src/main/res/drawable/ic_menu.xml" value="0.1535" />
         <entry key="app/src/main/res/drawable/ic_momento.xml" value="0.2045" />

@@ -18,7 +18,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 
 
@@ -36,6 +35,7 @@ class ProfileFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
+        editProfileButton=view.findViewById(R.id.editProfile)
 
         val pref = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)
         if (pref != null){
@@ -50,29 +50,27 @@ class ProfileFragment : Fragment() {
 
         }
 
-        view.editProfile.setOnClickListener{
+        editProfileButton.setOnClickListener{
             val getButtonText = view.editProfile.text.toString()
 
-            when {
-                getButtonText == "Edit Profile" -> startActivity(Intent(context, ProfileSettings::class.java))
-
-                getButtonText == "Watch" -> {
-                    firebaseUser?.uid.let { itl ->
+            when (getButtonText) {
+                "Edit Profile" -> startActivity(Intent(context, ProfileSettings::class.java))
+                "Watch" -> {
+                    firebaseUser.uid.let { itl ->
                         FirebaseDatabase.getInstance().reference
                             .child("Watch").child(itl.toString())
                             .child("Watching").child(profileId)
                             .setValue(true)
                     }
 
-                    firebaseUser?.uid.let { itl ->
+                    firebaseUser.uid.let { itl ->
                         FirebaseDatabase.getInstance().reference
                             .child("Watch").child(profileId)
                             .child("Watchers").child(itl.toString())
                             .setValue(true)
                     }
                 }
-
-                getButtonText == "Watching" -> {
+                "Watching" -> {
                     firebaseUser?.uid.let { itl ->
                         FirebaseDatabase.getInstance().reference
                             .child("Watch").child(itl.toString())
@@ -87,9 +85,7 @@ class ProfileFragment : Fragment() {
                             .removeValue()
                     }
                 }
-
             }
-
         }
 
         getWatchers()
@@ -162,11 +158,10 @@ class ProfileFragment : Fragment() {
 
     private fun userInfo() {
         val usersRef = FirebaseDatabase.getInstance().reference.child("Users").child(profileId)
-
         usersRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists()){
-                    val user = p0.getValue<User>(User::class.java)
+                    val user = p0.getValue(User::class.java)
 
                     Picasso.get().load(user!!.getImage()).placeholder(R.drawable.ic_user_avatar_light).into(view?.profileImage)
 

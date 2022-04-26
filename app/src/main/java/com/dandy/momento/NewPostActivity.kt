@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import com.canhub.cropper.CropImage
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.OnCompleteListener
@@ -23,12 +24,15 @@ import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import com.yalantis.ucrop.UCrop
 import kotlinx.android.synthetic.main.activity_new_post.*
+import java.io.File
 
 class NewPostActivity : AppCompatActivity() {
     private var myUrl = ""
     private var imageUri: Uri? = null
     private var storagePostPicRef: StorageReference ?= null
     private lateinit var publishPostButton: ImageView
+    private lateinit var closePostPageButton: ImageView
+    private lateinit var newPostImageSelector: ImageView
 
     private val uCropContract = object : ActivityResultContract<List<Uri>, Uri>(){
         override fun createIntent(context: Context, input: List<Uri>): Intent {
@@ -47,34 +51,37 @@ class NewPostActivity : AppCompatActivity() {
         }
     }
 
-    private val cropImage = registerForActivityResult(uCropContract){
-
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_post)
 
         storagePostPicRef = FirebaseStorage.getInstance().reference.child("Post Pictures")
         publishPostButton = findViewById(R.id.publishNewPost)
-
-        CropImage.activity()
-            .setAspectRatio(2, 1)
-            .start(this)
+        closePostPageButton = findViewById(R.id.closeAddPost)
+        newPostImageSelector = findViewById(R.id.newPostImage)
 
         publishPostButton.setOnClickListener{
             uploadImage()
         }
+        closePostPageButton.setOnClickListener {
+            val closeIntent = Intent(this, MainActivity::class.java)
+            startActivity(closeIntent)
+            finish()
+        }
+        newPostImageSelector.setOnClickListener {
+
+        }
 
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK && data !=null){
             val result = UCrop.getOutput(intent)
             imageUri = result
-            newPostImage.setImageURI(imageUri)
+            newPostImageSelector.setImageURI(imageUri)
         }
 
     }
@@ -123,10 +130,7 @@ class NewPostActivity : AppCompatActivity() {
 
                     }
                 })
-
-
             }
         }
-
     }
 }

@@ -35,6 +35,7 @@ class SearchFragment : Fragment() {
         recyclerView = view.findViewById(R.id.searchRecyclerView)
         recyclerView?.setHasFixedSize(true)
         recyclerView?.layoutManager = LinearLayoutManager(context)
+        searchBox = view?.findViewById(R.id.searchBox)
 
         mUser = ArrayList()
         userAdapter = context?.let {SearchAdapter(it, mUser as ArrayList<User>, true)}

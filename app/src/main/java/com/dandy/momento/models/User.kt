@@ -26,7 +26,7 @@ class User {
         this.userName = userName
     }
 
-    infix fun getBio(): String? {
+    fun getBio(): String? {
         return bio
     }
 
@@ -34,7 +34,7 @@ class User {
         this.bio = bio
     }
 
-    infix fun getFullName(): String? {
+    fun getFullName(): String? {
         return fullName
     }
 
@@ -66,7 +66,7 @@ class User {
         this.userEmail = userEmail
     }
 
-    infix fun getUsername(): String? {
+    fun getUsername(): String? {
         return userName
     }
 

@@ -87,7 +87,7 @@ class HomeFragment : Fragment() {
 
         postsRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot) {
-                postList?.clear()
+                postList.clear()
 
                 for (snapshot in p0.children) {
                     val post = snapshot.getValue(Post::class.java)
