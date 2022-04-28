@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import com.dandy.momento.ProfileSettings
 import com.dandy.momento.R
 import com.dandy.momento.models.User
@@ -25,6 +26,9 @@ class ProfileFragment : Fragment() {
     private lateinit var profileId: String
     private lateinit var firebaseUser: FirebaseUser
     private lateinit var editProfileButton: Button
+    private lateinit var userName: TextView
+    private lateinit var profileName: TextView
+    private lateinit var profileBio: TextView
 
 
     override fun onCreateView(
@@ -36,6 +40,10 @@ class ProfileFragment : Fragment() {
 
         firebaseUser = FirebaseAuth.getInstance().currentUser!!
         editProfileButton=view.findViewById(R.id.editProfile)
+        userName=view.findViewById(R.id.profileUsername)
+        profileName=view.findViewById(R.id.fullProfileName)
+        profileBio=view.findViewById(R.id.profileBio)
+
 
         val pref = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)
         if (pref != null){
@@ -43,7 +51,7 @@ class ProfileFragment : Fragment() {
         }
 
         if (profileId == firebaseUser.uid){
-            view.editProfile.text = "Edit Profile"
+            editProfileButton.text = "Edit Profile"
 
         } else if (profileId != firebaseUser.uid){
             checkWatchAndWatchingButtonStatus()
@@ -51,7 +59,7 @@ class ProfileFragment : Fragment() {
         }
 
         editProfileButton.setOnClickListener{
-            val getButtonText = view.editProfile.text.toString()
+            val getButtonText = editProfileButton.text.toString()
 
             when (getButtonText) {
                 "Edit Profile" -> startActivity(Intent(context, ProfileSettings::class.java))
@@ -165,9 +173,9 @@ class ProfileFragment : Fragment() {
 
                     Picasso.get().load(user!!.getImage()).placeholder(R.drawable.ic_user_avatar_light).into(view?.profileImage)
 
-                    view?.profileUsername?.text = user!!.getUsername()
-                    view?.fullProfileName?.text = user!!.getFullName()
-                    view?.profileBio?.text = user!!.getBio()
+                    userName.text = user!!.getUsername()
+                    profileName.text = user!!.getFullName()
+                    profileBio.text = user!!.getBio()
                 }
             }
 

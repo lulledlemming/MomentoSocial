@@ -1,18 +1,16 @@
 package com.dandy.momento
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
-import com.canhub.cropper.CropImage
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
@@ -23,6 +21,7 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import com.yalantis.ucrop.UCrop
+import com.yalantis.ucrop.UCrop.getOutput
 import kotlinx.android.synthetic.main.activity_new_post.*
 import java.io.File
 
@@ -51,6 +50,19 @@ class NewPostActivity : AppCompatActivity() {
         }
     }
 
+    private val getContent = registerForActivityResult(ActivityResultContracts.GetContent()){ uri ->
+        val inputUri = uri.toString().toUri()
+        val outputUri = File(filesDir, System.currentTimeMillis().toString()+".jpg").toUri()
+
+        val listUri = listOf<Uri>(inputUri, outputUri)
+        cropImage.launch(listUri)
+    }
+
+    private val cropImage = registerForActivityResult(uCropContract){
+        val uri = intent.data
+        newPostImage.setImageURI(uri)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_post)
@@ -69,7 +81,7 @@ class NewPostActivity : AppCompatActivity() {
             finish()
         }
         newPostImageSelector.setOnClickListener {
-
+            getContent.launch("image/*")
         }
 
     }
